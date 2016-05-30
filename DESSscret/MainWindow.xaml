@@ -8,6 +8,7 @@
         Title="DESSecret" Height="480" Width="680">
     <Grid>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="172,297,0,0" VerticalAlignment="Top" Width="123" Height="43" Click="button_Click"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="222,135,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
 
     </Grid>
 </Window>
