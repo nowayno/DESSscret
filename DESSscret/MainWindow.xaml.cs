@@ -26,7 +26,16 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            int a = 11;
+            string aa = "dddsd";
+            byte[] ab = Encoding.Default.GetBytes(aa);
+            string b="";
+            for (int i = 0; i < ab.Length; i++)
+                b += Convert.ToString(ab[i], 2);
+            string c = b.Substring(0, 1);
 
+            int d = Convert.ToInt32(c);
+            Console.Write(b + " " + c + " " + d + " ");
         }
     }
 }
