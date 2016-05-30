@@ -61,6 +61,31 @@ namespace DESSscret.Tools
             return afterString;
         }
 
+        /// <summary>
+        /// 拆分字符串
+        /// </summary>
+        /// <param name="beforString">要拆分字符串</param>
+        /// <returns>拆分后的数组</returns>
+        private List<string[]> Split(string beforString)
+        {
+            List<string[]> afterString = new List<string[]>();
+            string foreString = beforString.Substring(0, beforString.Length / 2);
+            string[] tempFString = new string[foreString.Length];
+            string[] tempBString = new string[foreString.Length];
+            string backString = beforString.Substring(0, beforString.Length / 2);
+            //将拆分的两组字符串分别再拆分为一个字符，以便于后面的移位
+            for (int index = 0; index < foreString.Length; index++)
+            {
+                tempFString[index] = foreString.Substring(index, 1);
+                tempBString[index] = foreString.Substring(index, 1);
+            }
+            //将最终拆分的字符串放到List中，方便后面对左右组移位
+            afterString.Add(tempFString);
+            afterString.Add(tempBString);
+            return afterString;
+        }
+
+
 
     }
 }
