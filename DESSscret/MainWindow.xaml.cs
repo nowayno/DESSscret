@@ -26,8 +26,7 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            string[] a = { "1", "2" };
-            DESTool.getInstace().Move(a, 1);
+
         }
     }
 }

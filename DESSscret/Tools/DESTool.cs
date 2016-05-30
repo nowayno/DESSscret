@@ -1,4 +1,7 @@
-﻿using System;
+﻿/// 作者:杨枫/crazYoung(nowayno)
+/// 完成时间:
+/// 说明:其中很多string数组，都是默认为保存的二进制数据
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -91,10 +94,10 @@ namespace DESSscret.Tools
         /// <param name="beforString">要操作的字符串</param>
         /// <param name="which">移位表</param>
         /// <returns>已移位的字符串</returns>
-        public string[] Move(string[] beforString, int which)
+        private string[] Move(string[] beforString, int which)
         {
             //确定移位表
-            int[] temp= { };
+            int[] temp = { };
             switch (which)
             {
                 case 0:
@@ -130,10 +133,41 @@ namespace DESSscret.Tools
             string tempSave = "";
             for (int index = 0; index < temp.Length; index++)
             {
-
+                tempSave += beforString[1];
             }
-            string[] afterString = new string[1];
+            //拆分临时字符串，保存到新的字符串数组中
+            string[] afterString = new string[tempSave.Length];
+            for (int index = 0; index < tempSave.Length; index++)
+            {
+                afterString[index] = tempSave.Substring(index, 1);
+            }
+            return afterString;
+        }
 
+        /// <summary>
+        /// 选择S表中的数据
+        /// </summary>
+        /// <param name="beforString">要操作的字符串数组</param>
+        /// <returns>改变后的字符串数组</returns>
+        private string[] SelectRowCol(string[] beforString)
+        {
+            string tempSave = "";
+            for (int which = 0; which < 8; which++)
+            {
+                int[,] temp = Key.S[which];
+                for (int index = 0; index < 48; index += 6)
+                {
+                    int row = Convert.ToInt32(beforString[index]) + Convert.ToInt32(beforString[index + 5]);
+                    int col = Convert.ToInt32(beforString[index + 1]) + Convert.ToInt32(beforString[index + 2]) + Convert.ToInt32(beforString[index + 3]) + Convert.ToInt32(beforString[index + 4]);
+                    tempSave += Convert.ToString(temp[row, col], 2).PadLeft(4, '0');
+                }
+            }
+
+            string[] afterString = new string[tempSave.Length];
+            for (int index = 0; index < tempSave.Length; index++)
+            {
+                afterString[index] = tempSave.Substring(index, 1);
+            }
             return afterString;
         }
     }
