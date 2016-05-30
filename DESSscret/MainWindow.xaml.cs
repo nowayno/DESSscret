@@ -26,11 +26,8 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            string beforString = "3123";
-            beforString = beforString.PadRight(65, '0');
-            int stringLength = beforString.Length;
-            string a = (beforString.Length > 64) && (beforString.Length % 64 != 0) ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString.PadRight(64, '0');
-            textBox.Text = a + " " + a.Length.ToString();
+            string[] a = { "1", "2" };
+            DESTool.getInstace().Move(a, 1);
         }
     }
 }

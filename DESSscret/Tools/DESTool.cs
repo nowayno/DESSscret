@@ -91,32 +91,46 @@ namespace DESSscret.Tools
         /// <param name="beforString">要操作的字符串</param>
         /// <param name="which">移位表</param>
         /// <returns>已移位的字符串</returns>
-        private string[] Move(string[] beforString, int which)
+        public string[] Move(string[] beforString, int which)
         {
-            int[] temp;
+            //确定移位表
+            int[] temp= { };
             switch (which)
             {
                 case 0:
+                    temp = new int[Key.PC_1.Length];
                     temp = Key.PC_1;
                     break;
                 case 1:
+                    temp = new int[Key.PC_2.Length];
                     temp = Key.PC_2;
                     break;
                 case 2:
+                    temp = new int[Key.LeftShift.Length];
                     temp = Key.LeftShift;
                     break;
                 case 3:
+                    temp = new int[Key.IP.Length];
                     temp = Key.IP;
                     break;
                 case 4:
+                    temp = new int[Key.E.Length];
                     temp = Key.E;
                     break;
                 case 5:
+                    temp = new int[Key.P.Length];
                     temp = Key.P;
                     break;
                 case 6:
+                    temp = new int[Key.IP_1.Length];
                     temp = Key.IP_1;
                     break;
+            }
+            //临时保存移位后的字符串
+            string tempSave = "";
+            for (int index = 0; index < temp.Length; index++)
+            {
+
             }
             string[] afterString = new string[1];
 
