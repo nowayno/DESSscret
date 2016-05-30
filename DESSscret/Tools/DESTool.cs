@@ -85,7 +85,42 @@ namespace DESSscret.Tools
             return afterString;
         }
 
+        /// <summary>
+        /// 字符串数组移位操作
+        /// </summary>
+        /// <param name="beforString">要操作的字符串</param>
+        /// <param name="which">移位表</param>
+        /// <returns>已移位的字符串</returns>
+        private string[] Move(string[] beforString, int which)
+        {
+            int[] temp;
+            switch (which)
+            {
+                case 0:
+                    temp = Key.PC_1;
+                    break;
+                case 1:
+                    temp = Key.PC_2;
+                    break;
+                case 2:
+                    temp = Key.LeftShift;
+                    break;
+                case 3:
+                    temp = Key.IP;
+                    break;
+                case 4:
+                    temp = Key.E;
+                    break;
+                case 5:
+                    temp = Key.P;
+                    break;
+                case 6:
+                    temp = Key.IP_1;
+                    break;
+            }
+            string[] afterString = new string[1];
 
-
+            return afterString;
+        }
     }
 }
