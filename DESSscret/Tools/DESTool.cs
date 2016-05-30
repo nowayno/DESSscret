@@ -55,8 +55,8 @@ namespace DESSscret.Tools
             string afterString = "";
             int stringLength = afterString.Length;
             //转化前字符串长度是否大于64位并且不是64的倍数
-            //为true就在字符串后面加入‘0’
-            //为flase就在字符串后面加入‘0’
+            //为true就在字符串后面加入‘0’,直到是64的倍数
+            //为flase就在字符串后面加入‘0’，知道是64位
             afterString = (beforString.Length > 64) && (beforString.Length % 64 != 0) ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString.PadRight(64, '0');
             return afterString;
         }
