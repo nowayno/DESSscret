@@ -170,5 +170,64 @@ namespace DESSscret.Tools
             }
             return afterString;
         }
+
+        /// <summary>
+        /// F方法
+        /// </summary>
+        /// <param name="R">明文二进制有半部分</param>
+        /// <param name="K">PC_2改变后的K</param>
+        /// <returns></returns>
+        private string[] F(string[] R, string[] K)
+        {
+            string one = Convert.ToString(Move(R, 4));
+            for (int index = 0; index < one.Length; index++)
+                R[index] = one.Substring(index, 1);
+            string[] sbi = Xor(R, K);
+            sbi = SelectRowCol(sbi);
+            string[] p = Move(sbi, 5);
+            return p;
+        }
+
+        /// <summary>
+        /// 加密解密算法过程
+        /// </summary>
+        /// <param name="text">需要操作的文本</param>
+        /// <param name="secretkey">密钥</param>
+        /// <param name="which">选择解密还是加密，默认是加密</param>
+        /// <returns>密文/明文</returns>
+        private string DEStool(string text, string secretkey, int which = 0)
+        {
+            if (which == 0)
+            {
+
+            }
+            else
+            {
+
+            }
+            string result = "";
+            return result;
+        }
+
+        /// <summary>
+        /// 加密方法
+        /// </summary>
+        /// <param name="text">明文</param>
+        /// <param name="secretkey">密钥</param>
+        /// <returns>密文</returns>
+        public string DESencrypt(string text, string secretkey)
+        {
+            return DEStool(text, secretkey, 0);
+        }
+        /// <summary>
+        /// 解密方法
+        /// </summary>
+        /// <param name="text">密文</param>
+        /// <param name="secretkey">密钥</param>
+        /// <returns>明文</returns>
+        public string DESdecrypt(string text, string secretkey)
+        {
+            return DEStool(text, secretkey, 1);
+        }
     }
 }
