@@ -197,15 +197,17 @@ namespace DESSscret.Tools
         /// <returns>密文/明文</returns>
         private string DEStool(string text, string secretkey, int which = 0)
         {
+            string result = "";
             if (which == 0)
             {
-
+                text = LengthAnd64(text);
+                List<string[]> textList = Split(text);
             }
             else
             {
 
             }
-            string result = "";
+            
             return result;
         }
 
