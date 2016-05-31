@@ -189,6 +189,36 @@ namespace DESSscret.Tools
         }
 
         /// <summary>
+        /// 字符串转换成二进制字符串
+        /// </summary>
+        /// <param name="beforString">要转二进制的字符串</param>
+        /// <returns>二进制字符串</returns>
+        private string StringToB(string beforString)
+        {
+            string result = "";
+            byte[] tempByte = Encoding.Default.GetBytes(beforString);
+            //将byte数组转成二进制字符串，每个byte值转换成8位二进制，不足8位在前面补0
+            for (int index = 0; index < tempByte.Length; index++)
+                result += Convert.ToString(tempByte[index], 2).PadLeft(8, '0');
+            return result;
+        }
+        /// <summary>
+        /// 二进制字符串转换为原文字符串
+        /// </summary>
+        /// <param name="beforString">要转换的二进制字符串</param>
+        /// <returns>原文字符串</returns>
+        private string BToString(string[] beforString)
+        {
+            string result = "";
+            byte[] tempByte = new byte[beforString.Length / 8];
+            for (int index = 0; index < beforString.Length; index += 8)
+            {
+                tempByte[index] = Convert.ToByte(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2);
+            }
+            result = Encoding.Default.GetString(tempByte);
+            return result;
+        }
+        /// <summary>
         /// 加密解密算法过程
         /// </summary>
         /// <param name="text">需要操作的文本</param>
@@ -198,16 +228,18 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
+            text = LengthAnd64(StringToB(text));
+            secretkey = LengthAnd64(StringToB(secretkey));
+            List<string[]> textList = Split(text);
             if (which == 0)
             {
-                text = LengthAnd64(text);
-                List<string[]> textList = Split(text);
+
             }
             else
             {
 
             }
-            
+
             return result;
         }
 
