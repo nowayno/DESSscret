@@ -218,6 +218,7 @@ namespace DESSscret.Tools
             result = Encoding.Default.GetString(tempByte);
             return result;
         }
+
         /// <summary>
         /// 加密解密算法过程
         /// </summary>
