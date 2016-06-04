@@ -93,8 +93,9 @@ namespace DESSscret.Tools
         /// </summary>
         /// <param name="beforString">要操作的字符串</param>
         /// <param name="which">移位表</param>
+        /// <param name="leftWhich">左移表的下标，默认是第0</param>
         /// <returns>已移位的字符串</returns>
-        private string[] Move(string[] beforString, int which)
+        private string[] Move(string[] beforString, int which, int leftWhich = 0)
         {
             //确定移位表
             int[] temp = { };
@@ -131,9 +132,21 @@ namespace DESSscret.Tools
             }
             //临时保存移位后的字符串
             string tempSave = "";
-            for (int index = 0; index < temp.Length; index++)
+            //如果是左移，则进入左移变化，否则进入换位
+            if (which == 2)
             {
-                tempSave += beforString[1];
+                for (int index = temp[leftWhich]; index < (temp.Length - temp[leftWhich]); index++)
+                    tempSave += beforString[index - 1];
+
+                for (int index = 0; index < temp.Length; index++)
+                    tempSave += beforString[index];
+            }
+            else
+            {
+                for (int index = 0; index < temp.Length; index++)
+                {
+                    tempSave += beforString[temp[index]];
+                }
             }
             //拆分临时字符串，保存到新的字符串数组中
             string[] afterString = new string[tempSave.Length];
@@ -237,10 +250,7 @@ namespace DESSscret.Tools
             string[] ketRightPC1 = Move(keyList[1], 1);//对半分后的右部分
 
             keyList.Clear();
-            for(int index=0;index<16;index++)
-            {
 
-            }
             if (which == 0)
             {
 
