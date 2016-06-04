@@ -232,6 +232,15 @@ namespace DESSscret.Tools
             text = LengthAnd64(StringToB(text));
             secretkey = LengthAnd64(StringToB(secretkey));
             List<string[]> textList = Split(text);
+            List<string[]> keyList = Split(secretkey);
+            string[] keyLeftPC1 = Move(keyList[0], 1);//对半分后的左部分
+            string[] ketRightPC1 = Move(keyList[1], 1);//对半分后的右部分
+
+            keyList.Clear();
+            for(int index=0;index<16;index++)
+            {
+
+            }
             if (which == 0)
             {
 
