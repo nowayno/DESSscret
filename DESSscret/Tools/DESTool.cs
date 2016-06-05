@@ -165,15 +165,17 @@ namespace DESSscret.Tools
         private string[] SelectRowCol(string[] beforString)
         {
             string tempSave = "";
+            int index1 = 0;
             for (int which = 0; which < 8; which++)
             {
                 int[,] temp = Key.S[which];
-                for (int index = 0; index < 48; index += 6)
-                {
-                    int row = Convert.ToInt32(beforString[index]) + Convert.ToInt32(beforString[index + 5]);
-                    int col = Convert.ToInt32(beforString[index + 1]) + Convert.ToInt32(beforString[index + 2]) + Convert.ToInt32(beforString[index + 3]) + Convert.ToInt32(beforString[index + 4]);
-                    tempSave += Convert.ToString(temp[row, col], 2).PadLeft(4, '0');
-                }
+
+                int row = Convert.ToInt32(beforString[index1] + beforString[index1 + 5], 2);
+                int col = Convert.ToInt32(beforString[index1 + 1] + beforString[index1 + 2] + beforString[index1 + 3] + beforString[index1 + 4], 2);
+                int a = temp[row, col];
+                tempSave += Convert.ToString(temp[row, col], 2).PadLeft(4, '0');
+
+                index1 += 6;
             }
 
             string[] afterString = new string[tempSave.Length];
