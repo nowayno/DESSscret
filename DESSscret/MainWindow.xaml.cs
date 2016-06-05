@@ -26,7 +26,7 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            byte[] a = Encoding.Default.GetBytes("FED");
+            byte[] a = Encoding.Default.GetBytes("发对方水电费");
             string[] b = new string[a.Length];
             string c = "";
             for (int i = 0; i < a.Length; i++)

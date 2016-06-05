@@ -135,17 +135,17 @@ namespace DESSscret.Tools
             //如果是左移，则进入左移变化，否则进入换位
             if (which == 2)
             {
-                for (int index = temp[leftWhich]; index < (temp.Length - temp[leftWhich]); index++)
+                for (int index = temp[leftWhich]; index < (beforString.Length - temp[leftWhich]); index++)
                     tempSave += beforString[index - 1];
 
-                for (int index = 0; index < temp.Length; index++)
+                for (int index = 0; index < temp[leftWhich]; index++)
                     tempSave += beforString[index];
             }
             else
             {
                 for (int index = 0; index < temp.Length; index++)
                 {
-                    tempSave += beforString[temp[index]];
+                    tempSave += beforString[temp[index] - 1];
                 }
             }
             //拆分临时字符串，保存到新的字符串数组中
@@ -205,27 +205,37 @@ namespace DESSscret.Tools
         /// 字符串转换成二进制字符串
         /// </summary>
         /// <param name="beforString">要转二进制的字符串</param>
+        /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>二进制字符串</returns>
-        private string StringToB(string beforString)
+        private string StringToB(string beforString, int which = 0)
         {
             string result = "";
             byte[] tempByte = Encoding.Default.GetBytes(beforString);
-            //将byte数组转成二进制字符串，每个byte值转换成8位二进制，不足8位在前面补0
+            string[] tempString = new string[tempByte.Length];
+            //将byte数组转成二进制字符串，每个byte值转换成8位二进制，不足4位在前面补0
             for (int index = 0; index < tempByte.Length; index++)
-                result += Convert.ToString(tempByte[index], 2).PadLeft(8, '0');
+            {
+                if (which == 0)
+                    tempString[index] = tempByte[index].ToString("X");
+                else
+                    tempString[index] = beforString.Substring(index, 1);
+            }
+            for (int index = 0; index < tempString.Length; index++)
+                result += Convert.ToString(Convert.ToInt32(tempString[index], 16), 2).PadLeft(4, '0');
             return result;
         }
         /// <summary>
         /// 二进制字符串转换为原文字符串
         /// </summary>
         /// <param name="beforString">要转换的二进制字符串</param>
+        /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>原文字符串</returns>
-        private string BToString(string[] beforString)
+        private string BToString(string[] beforString, int which = 0)
         {
             string result = "";
-            byte[] tempByte = new byte[beforString.Length / 8];
+            byte[] tempByte = new byte[beforString.Length / 4];
             int outRange = 0;
-            for (int index = 0; index < beforString.Length; index += 7)
+            for (int index = 0; index < beforString.Length; index += 3)
             {
                 tempByte[outRange] = Convert.ToByte(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2);
                 outRange++;
@@ -265,23 +275,43 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
-            text = LengthAnd64(StringToB(text));
-            secretkey = LengthAnd64(StringToB(secretkey));
+            text = LengthAnd64(StringToB(text, 1));
+            secretkey = LengthAnd64(StringToB(secretkey, 1));
             List<string[]> textList = Split(text);
+            string[] textIP = Move(RebuildString(textList[0], textList[1]), 3);
+            string tempText = "";
+            for (int index = 0; index < textIP.Length; index++)
+            {
+                tempText += textIP[index];
+            }
+            textList = Split(tempText);
             List<string[]> keyList = Split(secretkey);
-            string[] keyLeftPC1 = Move(keyList[0], 1);//对半分后的左部分
-            string[] keyRightPC1 = Move(keyList[1], 1);//对半分后的右部分
+            string[] keyPC1 = Move(RebuildString(keyList[0], keyList[1]), 0);
+            string[] keyLeftPC1 = new string[keyPC1.Length / 2];//对半分后的左部分
+            string[] keyRightPC1 = new string[keyPC1.Length / 2];//对半分后的右部分
+            for (int index1 = 0, index2 = 0; index1 < keyPC1.Length; index1++)
+            {
+                if (index1 < keyPC1.Length / 2)
+                    keyLeftPC1[index1] = keyPC1[index1];
+                else
+                {
+                    keyRightPC1[index2] = keyPC1[index1];
+                    index2++;
+                }
+            }
 
             if (which == 0)
             {
                 for (int index = 0; index < 16; index++)
                 {
+                    string[] tempText1 = textList[0];
+                    string[] tempText2 = textList[1];
                     string[] keyK = new string[48];
                     keyLeftPC1 = Move(keyLeftPC1, 2, index);
                     keyRightPC1 = Move(keyRightPC1, 2, index);
                     keyK = RebuildString(keyLeftPC1, keyLeftPC1);
                     textList[0] = textList[1];
-                    textList[1] = Xor(textList[0], F(textList[1], keyK));
+                    textList[1] = Xor(tempText1, F(tempText2, Move(keyK, 1)));
                 }
                 string[] end = Move(RebuildString(textList[1], textList[0]), 6);
                 result = BToString(end);
