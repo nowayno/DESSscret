@@ -26,7 +26,7 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-
+            textBox.Text = DESTool.getInstace().DESencrypt("8787878787878787", "0E329232EA6D0D73");
         }
     }
 }

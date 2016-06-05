@@ -192,10 +192,10 @@ namespace DESSscret.Tools
         /// <returns></returns>
         private string[] F(string[] R, string[] K)
         {
-            string one = Convert.ToString(Move(R, 4));
-            for (int index = 0; index < one.Length; index++)
-                R[index] = one.Substring(index, 1);
-            string[] sbi = Xor(R, K);
+            string[] one = Move(R, 4);
+            //for (int index = 0; index < one.Length; index++)
+            //    R[index] = one.Substring(index, 1);
+            string[] sbi = Xor(one, K);
             sbi = SelectRowCol(sbi);
             string[] p = Move(sbi, 5);
             return p;
@@ -224,12 +224,35 @@ namespace DESSscret.Tools
         {
             string result = "";
             byte[] tempByte = new byte[beforString.Length / 8];
-            for (int index = 0; index < beforString.Length; index += 8)
+            int outRange = 0;
+            for (int index = 0; index < beforString.Length; index += 7)
             {
-                tempByte[index] = Convert.ToByte(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2);
+                tempByte[outRange] = Convert.ToByte(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2);
+                outRange++;
+                if (outRange >= tempByte.Length)
+                    break;
             }
             result = Encoding.Default.GetString(tempByte);
             return result;
+        }
+
+        /// <summary>
+        /// 结合多个单独的字符串数组
+        /// </summary>
+        /// <param name="param">可变长度参数，传入相关的字符串数组</param>
+        /// <returns>结合后的字符串数组</returns>
+        private string[] RebuildString(params string[][] param)
+        {
+            string temp = "";
+            foreach (string[] tempStrig in param)
+            {
+                for (int index = 0; index < tempStrig.Length; index++)
+                    temp += tempStrig[index];
+            }
+            string[] afterString = new string[temp.Length];
+            for (int index = 0; index < temp.Length; index++)
+                afterString[index] = temp.Substring(index, 1);
+            return afterString;
         }
 
         /// <summary>
@@ -247,13 +270,21 @@ namespace DESSscret.Tools
             List<string[]> textList = Split(text);
             List<string[]> keyList = Split(secretkey);
             string[] keyLeftPC1 = Move(keyList[0], 1);//对半分后的左部分
-            string[] ketRightPC1 = Move(keyList[1], 1);//对半分后的右部分
-
-            keyList.Clear();
+            string[] keyRightPC1 = Move(keyList[1], 1);//对半分后的右部分
 
             if (which == 0)
             {
-
+                for (int index = 0; index < 16; index++)
+                {
+                    string[] keyK = new string[48];
+                    keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                    keyRightPC1 = Move(keyRightPC1, 2, index);
+                    keyK = RebuildString(keyLeftPC1, keyLeftPC1);
+                    textList[0] = textList[1];
+                    textList[1] = Xor(textList[0], F(textList[1], keyK));
+                }
+                string[] end = Move(RebuildString(textList[1], textList[0]), 6);
+                result = BToString(end);
             }
             else
             {
