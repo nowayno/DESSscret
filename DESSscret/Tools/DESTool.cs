@@ -209,12 +209,12 @@ namespace DESSscret.Tools
         /// <param name="beforString">要转二进制的字符串</param>
         /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>二进制字符串</returns>
-        private string StringToB(string beforString, int which = 0)
+        public string StringToB(string beforString, int which = 0)
         {
             string result = "";
             byte[] tempByte = Encoding.Default.GetBytes(beforString);
             string[] tempString = new string[tempByte.Length];
-            //将byte数组转成二进制字符串，每个byte值转换成8位二进制，不足4位在前面补0
+            //将byte数组转成二进制字符串，每个byte值转换成4位二进制，不足4位在前面补0
             for (int index = 0; index < tempByte.Length; index++)
             {
                 if (which == 0)
@@ -232,14 +232,14 @@ namespace DESSscret.Tools
         /// <param name="beforString">要转换的二进制字符串</param>
         /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>原文字符串</returns>
-        private string BToString(string[] beforString, int which = 0)
+        public string BToString(string[] beforString, int which = 0)
         {
             string result = "";
-            byte[] tempByte = new byte[beforString.Length / 4];
+            byte[] tempByte = new byte[beforString.Length / 8];
             int outRange = 0;
-            for (int index = 0; index < beforString.Length; index += 3)
+            for (int index = 0; index < beforString.Length; index += 8)
             {
-                tempByte[outRange] = Convert.ToByte(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2);
+                tempByte[outRange] = Convert.ToByte(Convert.ToInt32(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2).ToString("X"), 16);
                 outRange++;
                 if (outRange >= tempByte.Length)
                     break;

@@ -35,6 +35,12 @@ namespace DESSscret
                
             }
             string bb = Convert.ToString(Convert.ToInt32("9",16), 2);
+            string aaa = "adadad";
+            string avv=DESTool.getInstace().StringToB(aaa);
+            string[] abab = new string[avv.Length];
+            for (int i = 0; i < abab.Length; i++)
+                abab[i] = avv.Substring(i, 1);
+            string abc=DESTool.getInstace().BToString(abab);
             textBox.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
         }
     }
