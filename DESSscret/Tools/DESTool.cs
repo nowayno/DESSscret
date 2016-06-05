@@ -75,12 +75,12 @@ namespace DESSscret.Tools
             string foreString = beforString.Substring(0, beforString.Length / 2);
             string[] tempFString = new string[foreString.Length];
             string[] tempBString = new string[foreString.Length];
-            string backString = beforString.Substring(0, beforString.Length / 2);
+            string backString = beforString.Substring(beforString.Length / 2, beforString.Length / 2);
             //将拆分的两组字符串分别再拆分为一个字符，以便于后面的移位
             for (int index = 0; index < foreString.Length; index++)
             {
                 tempFString[index] = foreString.Substring(index, 1);
-                tempBString[index] = foreString.Substring(index, 1);
+                tempBString[index] = backString.Substring(index, 1);
             }
             //将最终拆分的字符串放到List中，方便后面对左右组移位
             afterString.Add(tempFString);
@@ -135,8 +135,8 @@ namespace DESSscret.Tools
             //如果是左移，则进入左移变化，否则进入换位
             if (which == 2)
             {
-                for (int index = temp[leftWhich]; index < (beforString.Length - temp[leftWhich]); index++)
-                    tempSave += beforString[index - 1];
+                for (int index = temp[leftWhich]; index < beforString.Length; index++)
+                    tempSave += beforString[index];
 
                 for (int index = 0; index < temp[leftWhich]; index++)
                     tempSave += beforString[index];
@@ -309,8 +309,8 @@ namespace DESSscret.Tools
                     string[] keyK = new string[48];
                     keyLeftPC1 = Move(keyLeftPC1, 2, index);
                     keyRightPC1 = Move(keyRightPC1, 2, index);
-                    keyK = RebuildString(keyLeftPC1, keyLeftPC1);
-                    textList[0] = textList[1];
+                    keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                    textList[0] = tempText2;
                     textList[1] = Xor(tempText1, F(tempText2, Move(keyK, 1)));
                 }
                 string[] end = Move(RebuildString(textList[1], textList[0]), 6);
