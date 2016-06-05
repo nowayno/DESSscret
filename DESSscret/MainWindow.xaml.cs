@@ -26,7 +26,15 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            textBox.Text = DESTool.getInstace().DESencrypt("8787878787878787", "0E329232EA6D0D73");
+            byte[] a = Encoding.Default.GetBytes("FED");
+            string[] b = new string[a.Length];
+            string c = "";
+            for (int i = 0; i < a.Length; i++)
+            {
+                b[i] = a[i].ToString("x").PadLeft(4, '0');
+               
+            } string bb = Convert.ToString(Convert.ToInt32("B",16), 2);
+            textBox.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
         }
     }
 }
