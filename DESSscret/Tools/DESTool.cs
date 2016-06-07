@@ -209,11 +209,14 @@ namespace DESSscret.Tools
         /// <param name="beforString">要转二进制的字符串</param>
         /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>二进制字符串</returns>
-        public string StringToB(string beforString, int which = 0)
+        private string StringToB(string beforString, int which = 0)
         {
             string result = "";
             byte[] tempByte = Encoding.Default.GetBytes(beforString);
             string[] tempString = new string[tempByte.Length];
+            int b = 8;
+            if (which != 0)
+                b = 4;
             //将byte数组转成二进制字符串，每个byte值转换成4位二进制，不足4位在前面补0
             for (int index = 0; index < tempByte.Length; index++)
             {
@@ -223,7 +226,7 @@ namespace DESSscret.Tools
                     tempString[index] = beforString.Substring(index, 1);
             }
             for (int index = 0; index < tempString.Length; index++)
-                result += Convert.ToString(Convert.ToInt32(tempString[index], 16), 2).PadLeft(4, '0');
+                result += Convert.ToString(Convert.ToInt32(tempString[index], 16), 2).PadLeft(b, '0');
             return result;
         }
         /// <summary>
@@ -232,7 +235,7 @@ namespace DESSscret.Tools
         /// <param name="beforString">要转换的二进制字符串</param>
         /// <param name="which">选择从十六进制开始转还是普通字符串转</param>
         /// <returns>原文字符串</returns>
-        public string BToString(string[] beforString, int which = 0)
+        private string BToString(string[] beforString, int which = 0)
         {
             string result = "";
             byte[] tempByte = new byte[beforString.Length / 8];
@@ -245,6 +248,7 @@ namespace DESSscret.Tools
                     break;
             }
             result = Encoding.Default.GetString(tempByte);
+            tempByte = Encoding.Default.GetBytes(result);
             return result;
         }
 
@@ -277,7 +281,7 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
-            text = LengthAnd64(StringToB(text, 1));
+            text = LengthAnd64(StringToB(text));
             secretkey = LengthAnd64(StringToB(secretkey, 1));
             List<string[]> textList = Split(text);
             string[] textIP = Move(RebuildString(textList[0], textList[1]), 3);
