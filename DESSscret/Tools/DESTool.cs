@@ -242,7 +242,9 @@ namespace DESSscret.Tools
             int outRange = 0;
             for (int index = 0; index < beforString.Length; index += 8)
             {
-                tempByte[outRange] = Convert.ToByte(Convert.ToInt32(beforString[index] + beforString[index + 1] + beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] + beforString[index + 6] + beforString[index + 7], 2).ToString("X"), 16);
+                tempByte[outRange] = Convert.ToByte(Convert.ToInt32(beforString[index] + beforString[index + 1] +
+                    beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] +
+                    beforString[index + 6] + beforString[index + 7], 2).ToString("X"), 16);
                 outRange++;
                 if (outRange >= tempByte.Length)
                     break;
