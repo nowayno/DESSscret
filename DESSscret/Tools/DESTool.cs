@@ -326,7 +326,19 @@ namespace DESSscret.Tools
             }
             else
             {
-
+                for (int index = 15; index >= 0; index--)
+                {
+                    string[] tempText1 = textList[0];
+                    string[] tempText2 = textList[1];
+                    string[] keyK = new string[48];
+                    keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                    keyRightPC1 = Move(keyRightPC1, 2, index);
+                    keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                    textList[0] = tempText2;
+                    textList[1] = Xor(tempText1, F(tempText2, Move(keyK, 1)));
+                }
+                string[] end = Move(RebuildString(textList[1], textList[0]), 6);
+                result = BToString(end);
             }
 
             return result;
