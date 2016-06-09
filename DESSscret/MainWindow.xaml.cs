@@ -26,17 +26,12 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            byte[] a = Encoding.Default.GetBytes("aaa");
-            string[] b = new string[a.Length];
-            string c = "";
-            for (int i = 0; i < a.Length; i++)
-            {
-                b[i] = a[i].ToString("x").PadLeft(4, '0');
+            //以下是测试十六进制明文的加解密，用来验证加密解密是否正确
+            //textBox1.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
+            //textBox2.Text = DESTool.getInstace().DESdecrypt("a28b7a0e74430f5e", "133457799BBCDFF1");
 
-            }
-
-            textBox1.Text = DESTool.getInstace().DESencrypt("012DEF11RdfdfTGFDEFDdvdfF方法", "133457799BBCDFF1");
-            textBox2.Text = DESTool.getInstace().DESdecrypt("25bd91e16f523fd0021ca28a269f123617a59dd6215e596393c60432a5f1ef4f", "133457799BBCDFF1");
+            textBox1.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
+            textBox2.Text = DESTool.getInstace().DESdecrypt("a28b7a0e74430f5e", "133457799BBCDFF1");
         }
     }
 }

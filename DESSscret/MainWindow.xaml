@@ -10,7 +10,6 @@
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="172,297,0,0" VerticalAlignment="Top" Width="123" Height="43" Click="button_Click"/>
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="103" Margin="49,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="103" Margin="356,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
-        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="103" Margin="224,189,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
 
     </Grid>
 </Window>
