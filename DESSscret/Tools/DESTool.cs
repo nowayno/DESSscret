@@ -295,6 +295,7 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
+            //加密解密转化进制约束，0为字符串转化成二进制，1为十进制转化成二进制
             int change = 0;
             if (which == 0)
                 change = 0;
@@ -318,6 +319,7 @@ namespace DESSscret.Tools
                 }
             }
             List<string[]> keyPC = PC1(keyLeftPC1, keyRightPC1);
+            //加解密文长度过大，将分为64的倍数次加解密，同时也取消了加解密文长度的限制
             for (int number = 0; number < text.Length; number += 64)
             {
                 List<string[]> textList = Split(text.Substring(number, 64));
