@@ -250,7 +250,6 @@ namespace DESSscret.Tools
                     break;
             }
             result = Encoding.Default.GetString(tempByte);
-            tempByte = Encoding.Default.GetBytes(result);
             return result;
         }
 
@@ -273,6 +272,18 @@ namespace DESSscret.Tools
             return afterString;
         }
 
+        private List<string[] >PC1(string[] keyLfet, string[] keyRight)
+        {
+            List<string[]> result = new List<string[]>();
+            for (int index = 0; index < 16; index++)
+            {
+                keyLfet = Move(keyLfet, 2, index);
+                keyRight = Move(keyRight, 2, index);
+                result.Add(Move(RebuildString(keyLfet, keyRight), 1));
+            }
+            return result;
+        }
+
         /// <summary>
         /// 加密解密算法过程
         /// </summary>
@@ -283,7 +294,7 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
-            text = LengthAnd64(StringToB(text));
+            text = LengthAnd64(StringToB(text, 1));
             secretkey = LengthAnd64(StringToB(secretkey, 1));
             List<string[]> textList = Split(text);
             string[] textIP = Move(RebuildString(textList[0], textList[1]), 3);
@@ -307,7 +318,7 @@ namespace DESSscret.Tools
                     index2++;
                 }
             }
-
+            List<string[]> keyPC = PC1(keyLeftPC1,keyRightPC1);
             if (which == 0)
             {
                 for (int index = 0; index < 16; index++)
@@ -315,11 +326,11 @@ namespace DESSscret.Tools
                     string[] tempText1 = textList[0];
                     string[] tempText2 = textList[1];
                     string[] keyK = new string[48];
-                    keyLeftPC1 = Move(keyLeftPC1, 2, index);
-                    keyRightPC1 = Move(keyRightPC1, 2, index);
-                    keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                    //keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                    //keyRightPC1 = Move(keyRightPC1, 2, index);
+                    //keyK = RebuildString(keyLeftPC1, keyRightPC1);
                     textList[0] = tempText2;
-                    textList[1] = Xor(tempText1, F(tempText2, Move(keyK, 1)));
+                    textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
                 }
                 string[] end = Move(RebuildString(textList[1], textList[0]), 6);
                 result = BToString(end);
@@ -331,11 +342,11 @@ namespace DESSscret.Tools
                     string[] tempText1 = textList[0];
                     string[] tempText2 = textList[1];
                     string[] keyK = new string[48];
-                    keyLeftPC1 = Move(keyLeftPC1, 2, index);
-                    keyRightPC1 = Move(keyRightPC1, 2, index);
-                    keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                    //keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                    //keyRightPC1 = Move(keyRightPC1, 2, index);
+                    //keyK = RebuildString(keyLeftPC1, keyRightPC1);
                     textList[0] = tempText2;
-                    textList[1] = Xor(tempText1, F(tempText2, Move(keyK, 1)));
+                    textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
                 }
                 string[] end = Move(RebuildString(textList[1], textList[0]), 6);
                 result = BToString(end);
