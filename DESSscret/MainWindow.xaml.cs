@@ -35,7 +35,7 @@ namespace DESSscret
 
             }
 
-            textBox.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
+            //textBox.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
             textBox.Text = DESTool.getInstace().DESdecrypt("85E813540F0AB405", "133457799BBCDFF1");
         }
     }

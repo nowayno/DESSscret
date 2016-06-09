@@ -272,7 +272,7 @@ namespace DESSscret.Tools
             return afterString;
         }
 
-        private List<string[] >PC1(string[] keyLfet, string[] keyRight)
+        private List<string[]> PC1(string[] keyLfet, string[] keyRight)
         {
             List<string[]> result = new List<string[]>();
             for (int index = 0; index < 16; index++)
@@ -318,7 +318,7 @@ namespace DESSscret.Tools
                     index2++;
                 }
             }
-            List<string[]> keyPC = PC1(keyLeftPC1,keyRightPC1);
+            List<string[]> keyPC = PC1(keyLeftPC1, keyRightPC1);
             if (which == 0)
             {
                 for (int index = 0; index < 16; index++)
@@ -337,7 +337,7 @@ namespace DESSscret.Tools
             }
             else
             {
-                for (int index = 15; index >=0; index--)
+                for (int index = 15; index >= 0; index--)
                 {
                     string[] tempText1 = textList[0];
                     string[] tempText2 = textList[1];
@@ -349,7 +349,9 @@ namespace DESSscret.Tools
                     textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
                 }
                 string[] end = Move(RebuildString(textList[1], textList[0]), 6);
-                result = BToString(end);
+                for (int i = 0; i < end.Length; i += 4)
+                    result += Convert.ToInt32(end[i] + end[i + 1] + end[i + 2] + end[i + 3], 2).ToString("x");
+                //result = BToString(end);
             }
 
             return result;
