@@ -337,7 +337,7 @@ namespace DESSscret.Tools
             }
             else
             {
-                for (int index = 15; index >= 0; index--)
+                for (int index = 15; index >=0; index--)
                 {
                     string[] tempText1 = textList[0];
                     string[] tempText2 = textList[1];
