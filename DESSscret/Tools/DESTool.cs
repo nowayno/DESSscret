@@ -56,11 +56,12 @@ namespace DESSscret.Tools
         private string LengthAnd64(string beforString)
         {
             string afterString = "";
-            int stringLength = afterString.Length;
+            int stringLength = beforString.Length;
             //转化前字符串长度是否大于64位并且不是64的倍数
             //为true就在字符串后面加入‘0’,直到是64的倍数
             //为flase就在字符串后面加入‘0’，知道是64位
-            afterString = (beforString.Length > 64) && (beforString.Length % 64 != 0) ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString.PadRight(64, '0');
+            afterString = stringLength != 64 ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString;
+            int i = afterString.Length;
             return afterString;
         }
 
@@ -294,16 +295,14 @@ namespace DESSscret.Tools
         private string DEStool(string text, string secretkey, int which = 0)
         {
             string result = "";
-            text = LengthAnd64(StringToB(text, 1));
+            int change = 0;
+            if (which == 0)
+                change = 0;
+            else
+                change = 1;
+            text = LengthAnd64(StringToB(text, change));
             secretkey = LengthAnd64(StringToB(secretkey, 1));
-            List<string[]> textList = Split(text);
-            string[] textIP = Move(RebuildString(textList[0], textList[1]), 3);
-            string tempText = "";
-            for (int index = 0; index < textIP.Length; index++)
-            {
-                tempText += textIP[index];
-            }
-            textList = Split(tempText);
+
             List<string[]> keyList = Split(secretkey);
             string[] keyPC1 = Move(RebuildString(keyList[0], keyList[1]), 0);
             string[] keyLeftPC1 = new string[keyPC1.Length / 2];//对半分后的左部分
@@ -319,41 +318,53 @@ namespace DESSscret.Tools
                 }
             }
             List<string[]> keyPC = PC1(keyLeftPC1, keyRightPC1);
-            if (which == 0)
+            for (int number = 0; number < text.Length; number += 64)
             {
-                for (int index = 0; index < 16; index++)
+                List<string[]> textList = Split(text.Substring(number, 64));
+                string[] textIP = Move(RebuildString(textList[0], textList[1]), 3);
+                string tempText = "";
+                for (int index = 0; index < textIP.Length; index++)
                 {
-                    string[] tempText1 = textList[0];
-                    string[] tempText2 = textList[1];
-                    string[] keyK = new string[48];
-                    //keyLeftPC1 = Move(keyLeftPC1, 2, index);
-                    //keyRightPC1 = Move(keyRightPC1, 2, index);
-                    //keyK = RebuildString(keyLeftPC1, keyRightPC1);
-                    textList[0] = tempText2;
-                    textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
+                    tempText += textIP[index];
                 }
-                string[] end = Move(RebuildString(textList[1], textList[0]), 6);
-                result = BToString(end);
-            }
-            else
-            {
-                for (int index = 15; index >= 0; index--)
-                {
-                    string[] tempText1 = textList[0];
-                    string[] tempText2 = textList[1];
-                    string[] keyK = new string[48];
-                    //keyLeftPC1 = Move(keyLeftPC1, 2, index);
-                    //keyRightPC1 = Move(keyRightPC1, 2, index);
-                    //keyK = RebuildString(keyLeftPC1, keyRightPC1);
-                    textList[0] = tempText2;
-                    textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
-                }
-                string[] end = Move(RebuildString(textList[1], textList[0]), 6);
-                for (int i = 0; i < end.Length; i += 4)
-                    result += Convert.ToInt32(end[i] + end[i + 1] + end[i + 2] + end[i + 3], 2).ToString("x");
-                //result = BToString(end);
-            }
+                textList = Split(tempText);
 
+                if (which == 0)
+                {
+                    for (int index = 0; index < 16; index++)
+                    {
+                        string[] tempText1 = textList[0];
+                        string[] tempText2 = textList[1];
+                        string[] keyK = new string[48];
+                        //keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                        //keyRightPC1 = Move(keyRightPC1, 2, index);
+                        //keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                        textList[0] = tempText2;
+                        textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
+                    }
+                    string[] end = Move(RebuildString(textList[1], textList[0]), 6);
+                    for (int i = 0; i < end.Length; i += 4)
+                        result += Convert.ToInt32(end[i] + end[i + 1] + end[i + 2] + end[i + 3], 2).ToString("x");
+                }
+                else
+                {
+                    for (int index = 15; index >= 0; index--)
+                    {
+                        string[] tempText1 = textList[0];
+                        string[] tempText2 = textList[1];
+                        string[] keyK = new string[48];
+                        //keyLeftPC1 = Move(keyLeftPC1, 2, index);
+                        //keyRightPC1 = Move(keyRightPC1, 2, index);
+                        //keyK = RebuildString(keyLeftPC1, keyRightPC1);
+                        textList[0] = tempText2;
+                        textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
+                    }
+                    string[] end = Move(RebuildString(textList[1], textList[0]), 6);
+                    //for (int i = 0; i < end.Length; i += 4)
+                    //    result += Convert.ToInt32(end[i] + end[i + 1] + end[i + 2] + end[i + 3], 2).ToString("x");
+                    result += BToString(end);
+                }
+            }
             return result;
         }
 

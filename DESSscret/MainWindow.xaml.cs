@@ -26,7 +26,7 @@ namespace DESSscret
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            byte[] a = Encoding.Default.GetBytes("发对方水电费");
+            byte[] a = Encoding.Default.GetBytes("aaa");
             string[] b = new string[a.Length];
             string c = "";
             for (int i = 0; i < a.Length; i++)
@@ -35,8 +35,8 @@ namespace DESSscret
 
             }
 
-            //textBox.Text = DESTool.getInstace().DESencrypt("0123456789ABCDEF", "133457799BBCDFF1");
-            textBox.Text = DESTool.getInstace().DESdecrypt("85E813540F0AB405", "133457799BBCDFF1");
+            textBox1.Text = DESTool.getInstace().DESencrypt("012DEF11RdfdfTGFDEFDdvdfF方法", "133457799BBCDFF1");
+            textBox2.Text = DESTool.getInstace().DESdecrypt("25bd91e16f523fd0021ca28a269f123617a59dd6215e596393c60432a5f1ef4f", "133457799BBCDFF1");
         }
     }
 }
