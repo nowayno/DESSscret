@@ -7,9 +7,17 @@
         mc:Ignorable="d"
         Title="DESSecret" Height="480" Width="680">
     <Grid>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="172,297,0,0" VerticalAlignment="Top" Width="123" Height="43" Click="button_Click"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="103" Margin="49,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
-        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="103" Margin="356,71,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
+        <Button x:Name="button" Content="加密" HorizontalAlignment="Left" Margin="49,337,0,0" VerticalAlignment="Top" Width="123" Height="43" Click="button_Click"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="28" Margin="49,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="273" ToolTip="输入明文"/>
+        <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="103" Margin="49,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="273" IsEnabled="False"/>
+        <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="28" Margin="372,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="273" IsEnabled="False"/>
+        <Button x:Name="button2" Content="解密" HorizontalAlignment="Left" Margin="199,337,0,0" VerticalAlignment="Top" Width="123" Height="43" Click="button2_Click"/>
+        <Label x:Name="label" Content="输入明文" HorizontalAlignment="Left" Margin="49,58,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy" Content="密钥" HorizontalAlignment="Left" Margin="372,58,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label_Copy1" Content="密文" HorizontalAlignment="Left" Margin="49,170,0,0" VerticalAlignment="Top"/>
+        <GroupBox x:Name="groupBox" Header="说明" HorizontalAlignment="Left" Margin="372,170,0,0" VerticalAlignment="Top" Height="133" Width="273" Foreground="#FF707070">
+            <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="83" Margin="10,10,-2,-12" TextWrapping="Wrap" Text="密钥在加密的时候自动生成，再参与加密。解密的时候密钥不变。每一次加密密钥都为随机生成" VerticalAlignment="Top" Width="253" IsEnabled="False" BorderThickness="0"/>
+        </GroupBox>
 
     </Grid>
 </Window>
