@@ -1,5 +1,5 @@
-﻿/// 作者:杨枫/crazYoung(nowayno)
-/// 完成时间:
+﻿/// 作者:crazYoung(nowayno)
+/// 完成时间:2016.6.9
 /// 说明:其中很多string数组，都是默认为保存的二进制数据
 using System;
 using System.Collections.Generic;
@@ -60,7 +60,7 @@ namespace DESSscret.Tools
             //转化前字符串长度是否大于64位并且不是64的倍数
             //为true就在字符串后面加入‘0’,直到是64的倍数
             //为flase就在字符串后面加入‘0’，知道是64位
-            afterString = stringLength != 64 ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString;
+            afterString = (stringLength != 64 && stringLength % 64 != 0) ? beforString.PadRight(64 - stringLength % 64 + stringLength, '0') : beforString;
             int i = afterString.Length;
             return afterString;
         }
@@ -228,6 +228,7 @@ namespace DESSscret.Tools
             }
             for (int index = 0; index < tempString.Length; index++)
                 result += Convert.ToString(Convert.ToInt32(tempString[index], 16), 2).PadLeft(b, '0');
+            int le = result.Length;
             return result;
         }
         /// <summary>
@@ -243,8 +244,8 @@ namespace DESSscret.Tools
             int outRange = 0;
             for (int index = 0; index < beforString.Length; index += 8)
             {
-                tempByte[outRange] = Convert.ToByte(Convert.ToInt32(beforString[index] + beforString[index + 1] +
-                    beforString[index + 2] + beforString[index + 3] + beforString[index + 4] + beforString[index + 5] +
+                tempByte[outRange] = Convert.ToByte(Convert.ToInt32(beforString[index] + beforString[index + 1] + beforString[index + 2] +
+                     beforString[index + 3] + beforString[index + 4] + beforString[index + 5] +
                     beforString[index + 6] + beforString[index + 7], 2).ToString("X"), 16);
                 outRange++;
                 if (outRange >= tempByte.Length)
@@ -273,6 +274,12 @@ namespace DESSscret.Tools
             return afterString;
         }
 
+        /// <summary>
+        /// 密钥进行PC1变化
+        /// </summary>
+        /// <param name="keyLfet">左半部分</param>
+        /// <param name="keyRight">右半部分</param>
+        /// <returns>返回长度16的List数组，保存了16次转换的字符串数组</returns>
         private List<string[]> PC1(string[] keyLfet, string[] keyRight)
         {
             List<string[]> result = new List<string[]>();
@@ -296,12 +303,7 @@ namespace DESSscret.Tools
         {
             string result = "";
             //加密解密转化进制约束，0为字符串转化成二进制，1为十进制转化成二进制
-            int change = 0;
-            if (which == 0)
-                change = 0;
-            else
-                change = 1;
-            text = LengthAnd64(StringToB(text, change));
+            text = LengthAnd64(StringToB(text, which));
             secretkey = LengthAnd64(StringToB(secretkey, 1));
 
             List<string[]> keyList = Split(secretkey);
