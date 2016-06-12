@@ -274,6 +274,23 @@ namespace DESSscret.Tools
             return afterString;
         }
 
+        private string[] RebuildString(params List<string[]>[] param)
+        {
+            string temp = "";
+            foreach (List<string[]> tempStrig in param)
+            {
+                foreach (string[] tempS in tempStrig)
+                {
+                    for (int index = 0; index < tempS.Length; index++)
+                        temp += tempS[index];
+                }
+            }
+            string[] afterString = new string[temp.Length];
+            for (int index = 0; index < temp.Length; index++)
+                afterString[index] = temp.Substring(index, 1);
+            return afterString;
+        }
+
         /// <summary>
         /// 密钥进行PC1变化
         /// </summary>
@@ -305,7 +322,7 @@ namespace DESSscret.Tools
             //加密解密转化进制约束，0为字符串转化成二进制，1为十进制转化成二进制
             text = LengthAnd64(StringToB(text, which));
             secretkey = LengthAnd64(StringToB(secretkey, 1));
-
+            List<string[]> endList = new List<string[]>();
             List<string[]> keyList = Split(secretkey);
             string[] keyPC1 = Move(RebuildString(keyList[0], keyList[1]), 0);
             string[] keyLeftPC1 = new string[keyPC1.Length / 2];//对半分后的左部分
@@ -363,11 +380,16 @@ namespace DESSscret.Tools
                         textList[0] = tempText2;
                         textList[1] = Xor(tempText1, F(tempText2, keyPC[index]));
                     }
-                    string[] end = Move(RebuildString(textList[1], textList[0]), 6);
+                    endList.Add(Move(RebuildString(textList[1], textList[0]), 6));
                     //for (int i = 0; i < end.Length; i += 4)
                     //    result += Convert.ToInt32(end[i] + end[i + 1] + end[i + 2] + end[i + 3], 2).ToString("x");
-                    result += BToString(end);
+                    //result += BToString(end);
                 }
+            }
+            if (which != 0)
+            {
+                string[] end = RebuildString(endList);
+                result = BToString(end);
             }
             return result;
         }
